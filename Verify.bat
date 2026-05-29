@@ -12,7 +12,7 @@
 chcp 437 > nul
 setlocal enabledelayedexpansion
 if not defined WINMIGRATE_LANG (
-    for /f "tokens=3" %%L in ('reg query "HKCU\Control Panel\International" /v LocaleName 2^>nul') do set "_WML=%%L"
+    for /f "tokens=3 delims= " %%L in ('reg query "HKCU\Control Panel\International" /v LocaleName 2^>nul') do set "_WML=%%L"
     if "!_WML:~0,2!"=="fr" (set "WINMIGRATE_LANG=FR") else (set "WINMIGRATE_LANG=EN")
     set "_WML="
 )
