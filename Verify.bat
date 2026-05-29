@@ -26,7 +26,12 @@ if errorlevel 1 (
 )
 :ADMIN_OK
 set "BASE=%~dp0"
-set "LOG_FILE=%TEMP%\WinMigrate_Verify_%DATE:~10,4%%DATE:~4,2%%DATE:~7,2%.log"
+pushd "%BASE%" >nul 2>&1 || (
+    echo [ERROR] Unable to access project folder %BASE%
+    exit /b 1
+)
+set "LOG_TIME=%TIME: =0%"
+set "LOG_FILE=%TEMP%\WinMigrate_Verify_%LOG_TIME:~0,2%%LOG_TIME:~3,2%%LOG_TIME:~6,2%_%RANDOM%.log"
 set "TOTAL=0"
 if /i "%WINMIGRATE_LANG%"=="FR" (
     echo Rapport de verification WinMigrate > "%LOG_FILE%"
@@ -50,4 +55,5 @@ if /i "%WINMIGRATE_LANG%"=="FR" (
 ) else (
     echo [OK] %TOTAL% files found and verified. Report: %LOG_FILE%
 )
+popd >nul 2>&1
 exit /b 0
